@@ -1,12 +1,12 @@
 import { useEffect, useState, useRef } from 'react';
-import { Container, Row, Col, Button, Notification, toaster, Panel} from 'rsuite';
+import { Link } from 'react-router-dom';
+import { Container, Row, Col, Button, Notification, toaster, Panel } from 'rsuite';
 import { FaPlus, FaListUl, FaTrash, FaPlay, FaInfoCircle, FaVolumeUp, FaVolumeMute, FaChevronLeft, FaChevronRight, FaArrowLeft } from 'react-icons/fa';
 import ReactPlayer from 'react-player';
 
-import CreatePlaylistModal from '../components/CreatePlaylist.component';
-import Details from '../components/Details.component';
-import FullscreenPlayer from '../components/FullscreenPlayer';
-import MoviePlaylist from '../pages/Playlist.page';
+import CreatePlaylistModal from '../components/CreatePlaylist/CreatePlaylist.component';
+import Details from '../components/DetailsFilm/Details.component';
+import MoviePlaylist from '../components/Playlist/Playlist.componente';
 
 import { getMockUser } from '../services/user.service';
 import { getUserPlaylists, deletePlaylist } from '../services/playlist.service';
@@ -21,14 +21,6 @@ const HomePage = () => {
   const [selectedPlaylistId, setSelectedPlaylistId] = useState(null);
   const [latestMovie, setLatestMovie] = useState(null);
   const [isMuted, setIsMuted] = useState(true);
-  const [isFullscreenOpen, setIsFullscreenOpen] = useState(false);
-
-  const [playerState, setPlayerState] = useState({
-    playing: false,
-    played: 0,
-    duration: 0,
-  });
-
   const playerRef = useRef(null);
 
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
@@ -64,42 +56,6 @@ const HomePage = () => {
     }
     fetchPlaylists();
   }, [userId]);
-
-  useEffect(() => {
-    if (isFullscreenOpen && playerState.playing) {
-      setIsMuted(true);
-    } else {
-      setIsMuted(false);
-    }
-  }, [isFullscreenOpen, playerState.playing]);
-
-  const handlePlaylistCreated = (newPlaylist) => {
-    setPlaylists(playlist => [newPlaylist, ...playlist]);
-    setModalOpen(false);
-  };
-
-  const handleDelete = async (playlistId) => {
-    if (!window.confirm('Tem certeza que deseja apagar essa playlist?')) return;
-
-    try {
-      const success = await deletePlaylist(playlistId);
-
-      if (success) {
-        setPlaylists(prev => prev.filter(p => p._id !== playlistId));
-        if (selectedPlaylistId === playlistId) {
-          setSelectedPlaylistId(null);
-        }
-      } else {
-        alert('Erro ao apagar a playlist.');
-      }
-    } catch {
-      alert('Erro ao apagar a playlist.');
-    }
-  };
-
-  const handleOpenPlaylist = (playlistId) => {
-    setSelectedPlaylistId(playlistId);
-  };
 
   useEffect(() => {
     async function loadLatestMovie() {
@@ -150,25 +106,6 @@ const HomePage = () => {
 
   const handleToggleMute = () => setIsMuted(m => !m);
 
-  const handlePlayClick = () => {
-    setIsFullscreenOpen(true);
-
-    setPlayerState(prev => ({
-      ...prev,
-      playing: true,
-    }));
-  };
-
-  const handleClosePlayer = () => {
-    setIsFullscreenOpen(false);
-
-    setPlayerState(prev => ({
-      ...prev,
-      playing: false,
-      played: 0,
-    }));
-  };
-
   const scrollByOffset = (offset) => {
     if (scrollRef.current) {
       scrollRef.current.scrollBy({
@@ -185,6 +122,34 @@ const HomePage = () => {
 
   const handleBackFromPlaylist = () => {
     setSelectedPlaylistId(null);
+  };
+
+  const handleDelete = async (playlistId) => {
+    if (!window.confirm('Tem certeza que deseja apagar essa playlist?')) return;
+
+    try {
+      const success = await deletePlaylist(playlistId);
+
+      if (success) {
+        setPlaylists(playlist => playlist?.filter(p => p._id !== playlistId));
+        if (selectedPlaylistId === playlistId) {
+          setSelectedPlaylistId(null);
+        }
+      } else {
+        alert('Erro ao apagar a playlist.');
+      }
+    } catch {
+      alert('Erro ao apagar a playlist.');
+    }
+  };
+
+  const handleOpenPlaylist = (playlistId) => {
+    setSelectedPlaylistId(playlistId);
+  };
+
+  const handlePlaylistCreated = (newPlaylist) => {
+    setPlaylists(playlist => [newPlaylist, ...playlist]);
+    setModalOpen(false);
   };
 
   return (
@@ -246,19 +211,24 @@ const HomePage = () => {
                 <Button
                   appearance="link"
                   onClick={handleBackFromPlaylist}
-                  style={{ marginBottom: 10, padding: 0 }}
+                  style={{
+                    marginBottom: 10,
+                    padding: 0,
+                    color: 'inherit',    
+                    boxShadow: 'none',      
+                    outline: 'none',         
+                  }}
+                  onFocus={(e) => e.target.style.outline = 'none'}  
+                  onBlur={(e) => e.target.style.outline = 'none'}
                 >
                   <FaArrowLeft /> Voltar
                 </Button>
                 <MoviePlaylist playlistId={selectedPlaylistId} />
-
               </div>
             ) : (
               <Row className="player-area">
-
                 {latestMovie && (
                   <div className="main-player-container">
-
                     <div
                       className="react-player-wrapper"
                       style={{ position: 'relative', paddingTop: '56.25%' }}
@@ -289,9 +259,11 @@ const HomePage = () => {
                       <h2 className="main-player-title">{latestMovie?.title ?? 'Título indisponível'}</h2>
                       <div className="main-player-buttons-container">
                         <div className="main-player-buttons">
-                          <Button appearance="primary" size="lg" onClick={handlePlayClick}>
-                            <FaPlay /> Assistir
-                          </Button>
+                          <Link to={`/player/${latestMovie?._id}`}>
+                            <Button appearance="primary" size="lg">
+                              <FaPlay /> Assistir
+                            </Button>
+                          </Link>
                           <Button appearance="default" size="lg" onClick={handleDetailsClick}>
                             <FaInfoCircle /> Mais informações
                           </Button>
@@ -356,25 +328,15 @@ const HomePage = () => {
             </Row>
           </Col>
         </Row>
-        
       </Container>
-        {isFullscreenOpen && latestMovie && (
-          <FullscreenPlayer
-            trailerKey={latestMovie?.trailerKey ?? ''}
-            playerState={playerState}
-            setPlayerState={setPlayerState}
-            isMuted={false}
-            onToggleMute={handleToggleMute}
-            onClosePlayer={handleClosePlayer}
-          />
-        )}
-        {selectedMovieId && (
-          <Details
-            open={isDetailsOpen}
-            onClose={() => setIsDetailsOpen(false)}
-            trailerId={selectedMovieId}
-          />
-        )}
+
+      {selectedMovieId && (
+        <Details
+          open={isDetailsOpen}
+          onClose={() => setIsDetailsOpen(false)}
+          trailerId={selectedMovieId}
+        />
+      )}
     </Container>
   );
 };

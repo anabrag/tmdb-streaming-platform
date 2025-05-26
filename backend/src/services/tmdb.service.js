@@ -17,22 +17,35 @@ const getMovieVideos = async (tmdbId) => {
 
 const getRecentMoviesWithTrailers = async () => {
   const tmdb = createTmdbClient();
-  const response = await tmdb.get("/movie/now_playing", {
-    params: { page: 1 }
-  });
+  const moviesCollected = [];
+  let page = 1;
+  const maxPages = 10;
 
-  const movies = response.data.results;
-  const moviesWithTrailers = [];
+  while (moviesCollected.length < 20 && page <= maxPages) {
+    const response = await tmdb.get("/movie/now_playing", {
+      params: { page }
+    });
 
-  for (const movie of movies) {
-    const videos = await getMovieVideos(movie.id);
+    const movies = response.data.results;
 
-    const trailer = videos.find(
-      (video) => video.type === "Trailer" && video.site === "YouTube"
-    );
+    for (const movie of movies) {
+      if (moviesCollected.length >= 20) break;
 
-    if (trailer) {
-      moviesWithTrailers.push({
+      let trailerKey = null;
+
+      try {
+        const videos = await getMovieVideos(movie.id);
+        const trailer = videos.find(
+          (video) => video.type === "Trailer" && video.site === "YouTube"
+        );
+        if (trailer) {
+          trailerKey = trailer.key;
+        }
+      } catch (err) {
+        console.warn(`Erro ao buscar trailer do filme ${movie.title}:`, err.message);
+      }
+
+      moviesCollected.push({
         tmdbId: movie.id,
         title: movie.title,
         overview: movie.overview,
@@ -40,17 +53,17 @@ const getRecentMoviesWithTrailers = async () => {
         backdrop: movie.backdrop_path,
         releaseDate: movie.release_date,
         voteAverage: movie.vote_average,
-        trailerKey: trailer.key
+        trailerKey 
       });
     }
 
-    if (moviesWithTrailers.length >= 10) break;
+    page++;
   }
 
-  return moviesWithTrailers;
+  return moviesCollected;
 };
 
-const SaveRecentMovies= async () => {
+const SaveRecentMovies = async () => {
   const moviesWithTrailers = await getRecentMoviesWithTrailers();
 
   const savedMovies = [];

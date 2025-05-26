@@ -8,7 +8,7 @@ const MovieSchema = new mongoose.Schema({
     backdrop: String,
     releaseDate: String,
     voteAverage: Number,
-    trailerKey: { type: String, required: true },
+    trailerKey: String,
 }, { timestamps: true });
 
 module.exports = mongoose.model("Movie", MovieSchema);

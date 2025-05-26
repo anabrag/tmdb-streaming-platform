@@ -1,7 +1,7 @@
 const Movie = require("../models/Movie.model");
 
 const getStoredMovies = async () => {
-  return await Movie.find().sort({ releaseDate: -1 }).limit(10);
+  return await Movie.find().sort({ releaseDate: -1 });
 };
 
 const getMovieById = async (id) => {

@@ -1,29 +1,20 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button, IconButton, Modal, Row, Col } from 'rsuite';
-import { PlayOutline, Plus, Heart, Check } from '@rsuite/icons';
+import { PlayOutline, Plus, Check } from '@rsuite/icons';
 import { FaListUl } from 'react-icons/fa';
-import '../assets/styles/Details.css';
-import { getMovieById } from '../services/movie.service';
-import { getUserPlaylists, addMovieToPlaylist } from '../services/playlist.service';
-import { getMockUser } from '../services/user.service';
-import FullscreenPlayer from './FullscreenPlayer';
+import { useNavigate } from 'react-router-dom';
+import './Details.css';
+import { getMovieById } from '../../services/movie.service';
+import { getUserPlaylists, addMovieToPlaylist } from '../../services/playlist.service';
+import { getMockUser } from '../../services/user.service';
 
 const Details = ({ open, onClose, trailerId }) => {
   const [trailerDetails, setTrailerDetails] = useState(null);
-  const [isPlayerOpen, setIsPlayerOpen] = useState(false);
-  const [favorited, setFavorited] = useState(false);
   const [playlists, setPlaylists] = useState([]);
   const [playlistModalOpen, setPlaylistModalOpen] = useState(false);
-  const [userId, setUserId] = useState(null);
   const [addedToPlaylist, setAddedToPlaylist] = useState(false);
-  const [playerState, setPlayerState] = useState({
-    playing: true,
-    played: 0,
-    duration: 0,
-    isPlaying: false,
-  });
 
-  const playerRef = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!open || !trailerId) return;
@@ -34,12 +25,14 @@ const Details = ({ open, onClose, trailerId }) => {
         setTrailerDetails(trailer);
 
         const user = await getMockUser();
-        setUserId(user._id);
-
         const userPlaylists = await getUserPlaylists(user._id);
         setPlaylists(userPlaylists);
 
-        setAddedToPlaylist(false); // Resetar ao abrir novo trailer
+        const alreadyInPlaylist = userPlaylists.some((playlist) =>
+          playlist.movies?.some((movie) => movie.tmdbId === trailer.tmdbId)
+        );
+
+        setAddedToPlaylist(alreadyInPlaylist);
       } catch (error) {
         console.error('Erro ao carregar dados:', error);
       }
@@ -48,23 +41,22 @@ const Details = ({ open, onClose, trailerId }) => {
     fetchData();
   }, [open, trailerId]);
 
-  const handlePlay = () => {
-    setIsPlayerOpen(true);
-    setPlayerState((prev) => ({ ...prev, isPlaying: true, playing: true }));
-  };
-
-  const toggleFavorite = () => {
-    setFavorited(!favorited);
-  };
-
   const handleAddToPlaylist = async (playlistId) => {
     try {
       await addMovieToPlaylist(playlistId, trailerId);
       setPlaylistModalOpen(false);
       setAddedToPlaylist(true);
+
+      const event = new CustomEvent('playlistUpdated', { detail: { playlistId } });
+      window.dispatchEvent(event);
     } catch (error) {
       console.error('Erro ao adicionar à playlist:', error);
     }
+  };
+
+  const handlePlayClick = () => {
+    onClose();
+    navigate(`/player/${trailerId}`);
   };
 
   return (
@@ -80,7 +72,7 @@ const Details = ({ open, onClose, trailerId }) => {
           <Modal.Header />
           <Modal.Body>
             <Row align="middle" gutter={20}>
-              <Col xs={24} md={12} className='modal-content-center'>
+              <Col xs={24} md={12} className="modal-content-center">
                 {trailerDetails?.backdrop ? (
                   <img
                     src={`https://image.tmdb.org/t/p/original${trailerDetails.backdrop}`}
@@ -99,19 +91,21 @@ const Details = ({ open, onClose, trailerId }) => {
                 )}
               </Col>
 
-              <Col xs={24} md={12} className='modal-content-center'>
+              <Col xs={24} md={12} className="modal-content-center">
                 <h2>{trailerDetails?.title || 'Título do Filme'}</h2>
                 <p>{trailerDetails?.overview || 'Descrição não disponível.'}</p>
 
                 <div>
-                  <Button
-                    appearance="primary"
-                    startIcon={<PlayOutline />}
-                    onClick={handlePlay}
-                    style={{ marginRight: 8 }}
-                  >
-                    Assistir
-                  </Button>
+                  {trailerDetails?.trailerKey && (
+                    <Button
+                      appearance="primary"
+                      startIcon={<PlayOutline />}
+                      onClick={handlePlayClick}
+                      style={{ marginRight: 8 }}
+                    >
+                      Assistir
+                    </Button>
+                  )}
                   <IconButton
                     icon={
                       addedToPlaylist ? (
@@ -132,32 +126,12 @@ const Details = ({ open, onClose, trailerId }) => {
                       }
                     }}
                   />
-                  <IconButton
-                    icon={<Heart />}
-                    circle
-                    appearance={favorited ? 'primary' : 'default'}
-                    color={favorited ? 'red' : undefined}
-                    title="Favoritar"
-                    onClick={toggleFavorite}
-                  />
                 </div>
               </Col>
             </Row>
           </Modal.Body>
         </Modal>
       </Col>
-
-      {isPlayerOpen && (
-        <Col lg={24} style={{ marginTop: 20 }}>
-          <FullscreenPlayer
-            trailerKey={trailerDetails?.trailerKey}
-            playerRef={playerRef}
-            playerState={playerState}
-            setPlayerState={setPlayerState}
-            onClosePlayer={() => setIsPlayerOpen(false)}
-          />
-        </Col>
-      )}
 
       <Modal
         size="xs"
@@ -166,16 +140,12 @@ const Details = ({ open, onClose, trailerId }) => {
         header={false}
       >
         <Modal.Body>
-          <h5 style={{ textAlign: 'center', marginBottom: 10 }}>Adicionar à playlist</h5>
+          <h5 style={{ textAlign: 'center', marginBottom: 10 }}>
+            Adicionar à playlist
+          </h5>
 
           {playlists?.length === 0 ? (
-            <div
-              style={{
-                display: 'flex',
-                justifyContent: 'center',
-                marginTop: '10px',
-              }}
-            >
+            <div style={{ textAlign: 'center', marginTop: 10 }}>
               Nenhuma playlist criada ainda.
             </div>
           ) : (
@@ -191,7 +161,13 @@ const Details = ({ open, onClose, trailerId }) => {
                 }}
                 onClick={() => handleAddToPlaylist(playlist._id)}
               >
-                <div style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    width: '100%',
+                  }}
+                >
                   <FaListUl style={{ marginRight: 8 }} />
                   {playlist?.name}
                 </div>

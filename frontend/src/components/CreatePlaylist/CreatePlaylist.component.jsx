@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Modal, Button, Input } from 'rsuite';
-import { createPlaylist } from '../services/playlist.service';
-import '../assets/styles/CreatePlaylist.css';
+import { createPlaylist } from '../../services/playlist.service';
+import './CreatePlaylist.css';
 
 const CreatePlaylistModal = ({ open, onClose, userId, onCreate }) => {
   const [name, setName] = useState('');

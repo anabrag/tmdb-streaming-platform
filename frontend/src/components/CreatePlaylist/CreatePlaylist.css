@@ -1,21 +1,21 @@
 .rs-modal {
-  background-color: #111 !important;
-  color: #ccc !important;
-  border: none !important;
-  box-shadow: none !important;
+  background-color: #111;
+  color: #ccc;
+  border: none;
+  box-shadow: none;
   top: 20%;
 }
 
 .rs-modal-content {
   background-color: #111 !important;
-  border: none !important;
+  border: none;
 }
 
 .rs-modal-header,
 .rs-modal-body,
 .rs-modal-footer {
-  background-color: #111 !important;
-  color: #ccc !important;
+  background-color: #111;
+  color: #ccc;
 }
 
 .rs-modal-title {
@@ -29,19 +29,19 @@
 }
 
 .rs-input::placeholder {
-  color: #777 !important;
+  color: #777;
 }
 
 .rs-btn-primary {
-  background-color: #1db954 !important;
-  border: none !important;
-  color: #fff !important;
+  background-color: #b00610 !important;
+  border: none;
+  color: #fff;
 }
 
 .rs-btn-subtle {
   color: #ccc !important;
-  border: 1px solid #444 !important;
-  background-color: transparent !important;
+  border: 1px solid #444;
+  background-color: transparent;
 }
 
 h5 {

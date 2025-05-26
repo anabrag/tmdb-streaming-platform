@@ -79,28 +79,6 @@
   box-shadow: 0 0 0 2px rgba(229, 9, 20, 0.3);
 }
 
-.details-modal .rs-btn-icon[title="Favoritar"] {
-  all: unset;
-  cursor: pointer;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.1);
-  color: #ffffff;
-}
-
-.details-modal .rs-btn-icon[title="Favoritar"]:hover {
-  background-color: rgba(255, 255, 255, 0.2);
-}
-
-.details-modal .rs-btn-icon[title="Favoritar"].favorited {
-  background-color: #e50914;
-  color: #ffffff;
-}
-
 .details-modal .rs-ripple-pond,
 .details-modal .rs-ripple {
   display: none !important;
@@ -120,13 +98,13 @@
   margin-right: 8px;
 }
 
-.details-modal .rs-btn-icon[title="Adicionar à playlist"]:hover,
-.details-modal .rs-btn-icon[title="Adicionar à playlist"].clicked {
+.details-modal .rs-btn-icon:hover,
+.details-modal .rs-btn-icon.clicked {
   background-color: rgba(255, 255, 255, 0.2);
 }
 
-.details-modal .rs-btn-icon[title="Adicionar à playlist"] .rs-ripple-pond,
-.details-modal .rs-btn-icon[title="Adicionar à playlist"] .rs-ripple {
+.details-modal .rs-btn-icon .rs-ripple-pond,
+.details-modal .rs-btn-icon .rs-ripple {
   display: none !important;
 }
 
