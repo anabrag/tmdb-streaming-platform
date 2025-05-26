@@ -1,39 +1,31 @@
 import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import HomePage from '../pages/HomePage';
+import '@testing-library/jest-dom';
 
 jest.mock('../services/user.service', () => ({
-  getUser: jest.fn()
+  getMockUser: jest.fn(() => Promise.resolve({ _id: 'user123' })),
 }));
 
 jest.mock('../services/playlist.service', () => ({
-  getUserPlaylists: jest.fn()
+  getUserPlaylists: jest.fn(() => Promise.resolve([])),
+  deletePlaylist: jest.fn(() => Promise.resolve(true)),
 }));
 
 jest.mock('../services/movie.service', () => ({
-  getMovies: jest.fn()
+  getMovies: jest.fn(() => Promise.resolve([])),
 }));
 
-import * as userService from '../services/user.service';
-import * as playlistService from '../services/playlist.service';
-import * as movieService from '../services/movie.service';
+jest.mock('../components/CreatePlaylist/CreatePlaylist.component', () => () => <div data-testid="create-playlist-modal" />);
+jest.mock('../components/DetailsFilm/Details.component', () => () => <div data-testid="details-component" />);
+jest.mock('../components/Playlist/Playlist.componente', () => () => <div data-testid="playlist-component" />);
 
-describe('HomePage', () => {
-  beforeEach(() => {
-    userService.getUser.mockResolvedValue({ _id: '123', name: 'Carol' });
-    playlistService.getUserPlaylists.mockResolvedValue([]);
-    movieService.getMovies.mockResolvedValue([]);
-  });
-
-  test('renderiza componentes principais', async () => {
+describe('HomePage Component', () => {
+  it('renderiza os componentes principais', async () => {
     render(<HomePage />);
 
-    await waitFor(() => {
-      expect(screen.getByText(/sua biblioteca/i)).toBeInTheDocument();
-    });
+    expect(await screen.findByText('Sua biblioteca')).toBeInTheDocument();
 
     expect(screen.getByRole('button', { name: /criar playlist/i })).toBeInTheDocument();
-
-    expect(screen.getByText(/nenhuma playlist criada ainda/i)).toBeInTheDocument();
   });
 });

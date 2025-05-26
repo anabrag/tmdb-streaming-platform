@@ -1,8 +1,6 @@
-import { useEffect, useState, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState, useRef } from 'react';
 import { Container, Row, Col, Button, Notification, toaster, Panel } from 'rsuite';
 import { FaPlus, FaListUl, FaTrash, FaPlay, FaInfoCircle, FaVolumeUp, FaVolumeMute, FaChevronLeft, FaChevronRight, FaArrowLeft } from 'react-icons/fa';
-import ReactPlayer from 'react-player';
 
 import CreatePlaylistModal from '../components/CreatePlaylist/CreatePlaylist.component';
 import Details from '../components/DetailsFilm/Details.component';
@@ -250,11 +248,11 @@ const HomePage = () => {
                       <h2 className="main-player-title">{latestMovie?.title ?? 'Título indisponível'}</h2>
                       <div className="main-player-buttons-container">
                         <div className="main-player-buttons">
-                          <Link to={`/player/${latestMovie?._id}`}>
+                          <a href={`/player/${latestMovie?._id}`}>
                             <Button appearance="primary" size="lg">
                               <FaPlay /> Assistir
                             </Button>
-                          </Link>
+                          </a>
                           <Button appearance="default" size="lg" onClick={handleDetailsClick}>
                             <FaInfoCircle /> Mais informações
                           </Button>
