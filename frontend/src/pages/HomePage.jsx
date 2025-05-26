@@ -231,29 +231,20 @@ const HomePage = () => {
                   <div className="main-player-container">
                     <div
                       className="react-player-wrapper"
-                      style={{ position: 'relative', paddingTop: '56.25%' }}
+                      style={{
+                      height: "100%",
+                      position: 'relative',
+                      backgroundImage: `url(https://image.tmdb.org/t/p/w1280${latestMovie?.backdrop ?? ''})`,
+                      backgroundSize: 'cover',
+                      backgroundPosition: 'center',
+                      borderRadius: 12,
+                      minHeight: 350,
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'flex-end',
+                      boxShadow: '0 4px 24px rgba(0,0,0,0.4)',
+                    }}
                     >
-                      <ReactPlayer
-                        ref={playerRef}
-                        url={`https://www.youtube.com/watch?v=${latestMovie?.trailerKey ?? ''}`}
-                        playing={false}
-                        loop={true}
-                        muted={isMuted}
-                        width="100%"
-                        height="100%"
-                        style={{ position: 'absolute', top: 0, left: 0 }}
-                        config={{
-                          youtube: {
-                            playerVars: {
-                              modestbranding: 1,
-                              rel: 0,
-                              showinfo: 0,
-                              controls: 0,
-                              iv_load_policy: 3,
-                            },
-                          },
-                        }}
-                      />
                     </div>
                     <div className="main-player-content">
                       <h2 className="main-player-title">{latestMovie?.title ?? 'Título indisponível'}</h2>
