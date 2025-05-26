@@ -12,9 +12,7 @@ describe("Movie Service", () => {
     it("deve retornar os 10 filmes mais recentes", async () => {
       const fakeMovies = [{ title: "Filme A" }, { title: "Filme B" }];
       Movie.find.mockReturnValue({
-        sort: jest.fn().mockReturnValue({
-          limit: jest.fn().mockResolvedValue(fakeMovies)
-        })
+        sort: jest.fn().mockReturnValue(fakeMovies)
       });
 
       const movies = await getStoredMovies();

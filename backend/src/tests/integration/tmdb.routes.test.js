@@ -23,17 +23,18 @@ describe("TMDB Routes Integration", () => {
       { id: 2, title: "Mock Movie 2" },
     ];
 
-    tmdbService.fetchAndSaveRecentMoviesWithTrailers.mockResolvedValue(mockMovies);
+    tmdbService.SaveRecentMovies = jest.fn().mockResolvedValue(mockMovies);
 
     const res = await request(app).get("/api/tmdb/movies");
 
     expect(res.statusCode).toBe(200);
     expect(res.body).toEqual(mockMovies);
-    expect(tmdbService.fetchAndSaveRecentMoviesWithTrailers).toHaveBeenCalled();
+    expect(tmdbService.SaveRecentMovies).toHaveBeenCalled();
   });
 
   it("GET /api/tmdb/movies - deve retornar erro 500 em caso de falha", async () => {
-    tmdbService.fetchAndSaveRecentMoviesWithTrailers.mockRejectedValue(new Error("Erro de teste"));
+    tmdbService.fetchAndSaveRecentMoviesWithTrailers.mockRejectedValue(new Error("Erro ao buscar filmes"));
+    tmdbService.SaveRecentMovies = jest.fn().mockRejectedValue(new Error("Erro ao buscar filmes"));
 
     const res = await request(app).get("/api/tmdb/movies");
 

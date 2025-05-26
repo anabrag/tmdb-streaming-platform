@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Button, IconButton, Modal, Row, Col } from 'rsuite';
 import { PlayOutline, Plus, Check } from '@rsuite/icons';
 import { FaListUl } from 'react-icons/fa';
-import { useNavigate } from 'react-router-dom';
 import './Details.css';
 import { getMovieById } from '../../services/movie.service';
 import { getUserPlaylists, addMovieToPlaylist } from '../../services/playlist.service';
@@ -14,7 +13,6 @@ const Details = ({ open, onClose, trailerId }) => {
   const [playlistModalOpen, setPlaylistModalOpen] = useState(false);
   const [addedToPlaylist, setAddedToPlaylist] = useState(false);
 
-  const navigate = useNavigate();
 
   useEffect(() => {
     if (!open || !trailerId) return;
@@ -52,11 +50,6 @@ const Details = ({ open, onClose, trailerId }) => {
     } catch (error) {
       console.error('Erro ao adicionar à playlist:', error);
     }
-  };
-
-  const handlePlayClick = () => {
-    onClose();
-    navigate(`/player/${trailerId}`);
   };
 
   return (
@@ -100,7 +93,7 @@ const Details = ({ open, onClose, trailerId }) => {
                     <Button
                       appearance="primary"
                       startIcon={<PlayOutline />}
-                      onClick={handlePlayClick}
+                      href={`/player/${trailerId}`}
                       style={{ marginRight: 8 }}
                     >
                       Assistir
