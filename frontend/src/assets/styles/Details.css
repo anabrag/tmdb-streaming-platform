@@ -1,0 +1,201 @@
+.details-modal .rs-modal-dialog {
+  max-width: 900px;
+  width: 100%;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+}
+
+.details-modal .rs-modal-content {
+  padding-right: 0 !important;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.details-modal .rs-modal-header {
+  padding-right: 0 !important;
+  flex-shrink: 0;
+}
+
+.details-modal .rs-modal-body {
+  padding: 20px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.details-modal .rs-col:last-child {
+  text-align: left;
+  padding-left: 20px;
+}
+
+.details-modal h2 {
+  text-align: left;
+  margin-bottom: 16px;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+.details-modal p {
+  text-align: left;
+  margin-bottom: 20px;
+  line-height: 1.6;
+  color: #e0e0e0;
+  font-size: 1rem;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-height: calc(1.6em * 6);
+}
+
+.details-modal .rs-col:last-child > div:last-child {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.details-modal .rs-btn-primary {
+  background-color: #e50914 !important;
+  border-color: #e50914 !important;
+  color: white !important;
+  font-weight: bold;
+  padding: 10px 20px;
+  border-radius: 6px;
+  transition: background-color 0.3s ease;
+}
+
+.details-modal .rs-btn-primary:hover {
+  background-color: #b8070f !important;
+  border-color: #b8070f !important;
+}
+
+.details-modal .rs-btn-primary:focus {
+  background-color: #e50914 !important;
+  border-color: #e50914 !important;
+  box-shadow: 0 0 0 2px rgba(229, 9, 20, 0.3);
+}
+
+.details-modal .rs-btn-icon[title="Favoritar"] {
+  all: unset;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+.details-modal .rs-btn-icon[title="Favoritar"]:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.details-modal .rs-btn-icon[title="Favoritar"].favorited {
+  background-color: #e50914;
+  color: #ffffff;
+}
+
+.details-modal .rs-ripple-pond,
+.details-modal .rs-ripple {
+  display: none !important;
+}
+
+.details-modal .rs-btn-icon[title="Adicionar à playlist"] {
+  all: unset;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  margin-right: 8px;
+}
+
+.details-modal .rs-btn-icon[title="Adicionar à playlist"]:hover,
+.details-modal .rs-btn-icon[title="Adicionar à playlist"].clicked {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.details-modal .rs-btn-icon[title="Adicionar à playlist"] .rs-ripple-pond,
+.details-modal .rs-btn-icon[title="Adicionar à playlist"] .rs-ripple {
+  display: none !important;
+}
+
+.details-modal img {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease;
+}
+
+.details-modal img:hover {
+  transform: scale(1.02);
+}
+
+@media (max-width: 768px) {
+  .details-modal .rs-modal-dialog {
+    width: 95%;
+    margin: 10px auto;
+    height: 450px;
+  }
+
+  .details-modal .rs-col:last-child {
+    padding-left: 0;
+    margin-top: 20px;
+  }
+
+  .details-modal h2 {
+    font-size: 1.5rem;
+    text-align: center;
+  }
+
+  .details-modal p {
+    text-align: center;
+  }
+
+  .details-modal .rs-col:last-child > div:last-child {
+    align-items: center;
+  }
+
+  .details-modal .rs-btn-primary {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .details-modal .rs-modal-dialog {
+    width: 100%;
+    margin: 0;
+    border-radius: 0;
+    height: 450px;
+  }
+
+  .details-modal .rs-modal-body {
+    padding: 15px;
+  }
+
+  .details-modal h2 {
+    font-size: 1.3rem;
+  }
+
+  .details-modal p {
+    font-size: 0.9rem;
+  }
+}
+
+.modal-content-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 100%;
+}

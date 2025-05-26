@@ -1,0 +1,50 @@
+.rs-modal {
+  background-color: #111 !important;
+  color: #ccc !important;
+  border: none !important;
+  box-shadow: none !important;
+  top: 20%;
+}
+
+.rs-modal-content {
+  background-color: #111 !important;
+  border: none !important;
+}
+
+.rs-modal-header,
+.rs-modal-body,
+.rs-modal-footer {
+  background-color: #111 !important;
+  color: #ccc !important;
+}
+
+.rs-modal-title {
+  color: #ccc !important;
+}
+
+.rs-input {
+  background-color: #222 !important;
+  color: #ccc !important;
+  border: 1px solid #444 !important;
+}
+
+.rs-input::placeholder {
+  color: #777 !important;
+}
+
+.rs-btn-primary {
+  background-color: #1db954 !important;
+  border: none !important;
+  color: #fff !important;
+}
+
+.rs-btn-subtle {
+  color: #ccc !important;
+  border: 1px solid #444 !important;
+  background-color: transparent !important;
+}
+
+h5 {
+  color: #aaa !important;
+}
+
