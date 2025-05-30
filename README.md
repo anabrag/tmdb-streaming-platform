@@ -41,6 +41,10 @@ flowchart TD
 ```
 
 # Como rodar o projeto
+## Primeiro faça o setup do projeto
+```bash
+make setup
+```
 
 ## NodeJS Local + Docker para Database
 
