@@ -1,5 +1,5 @@
 [![Test](https://github.com/anabrag/desafio-ntt-data/actions/workflows/ci.yaml/badge.svg)](https://github.com/anabrag/desafio-ntt-data/actions/workflows/ci.yaml)
-# Desafio NTT Data: Video playlist
+# Desafio: Video playlist
 
 ![Screenshot do sistema](./imgs/screenshot.png "Screenshot")
 
