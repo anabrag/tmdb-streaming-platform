@@ -56,7 +56,7 @@ const Details = ({ open, onClose, trailerId }) => {
     <Row style={{ marginTop: 20 }}>
       <Col lg={24}>
         <Modal
-          size="lg"
+          size="md"
           open={open}
           onClose={onClose}
           closable
@@ -65,12 +65,12 @@ const Details = ({ open, onClose, trailerId }) => {
           <Modal.Header />
           <Modal.Body>
             <Row align="middle" gutter={20}>
-              <Col xs={24} md={12} className="modal-content-center">
+              <Col md={10} className="modal-content-center">
                 {trailerDetails?.backdrop ? (
                   <img
                     src={`https://image.tmdb.org/t/p/original${trailerDetails.backdrop}`}
                     alt={trailerDetails?.title}
-                    style={{ width: '100%', borderRadius: 8 }}
+                    style={{ width: '100%', borderRadius: 8, height: "100%" }}
                   />
                 ) : (
                   <div
@@ -89,36 +89,15 @@ const Details = ({ open, onClose, trailerId }) => {
                 <p>{trailerDetails?.overview || 'Descrição não disponível.'}</p>
 
                 <div>
-                  {trailerDetails?.trailerKey && (
-                    <Button
-                      appearance="primary"
-                      startIcon={<PlayOutline />}
-                      href={`/player/${trailerId}`}
-                      style={{ marginRight: 8 }}
-                    >
+                    <Button appearance="primary" startIcon={<PlayOutline />} href={`/player/${trailerId}`} disabled={!trailerDetails?.trailerKey} target="_blank" rel="noopener noreferrer">
                       Assistir
                     </Button>
-                  )}
-                  <IconButton
-                    icon={
-                      addedToPlaylist ? (
-                        <Check style={{ color: 'white' }} />
-                      ) : (
-                        <Plus />
-                      )
-                    }
-                    circle
-                    title="Adicionar à playlist"
-                    style={{
-                      marginRight: 8,
-                      backgroundColor: addedToPlaylist ? '#e50914' : undefined,
-                    }}
-                    onClick={() => {
-                      if (!addedToPlaylist) {
-                        setPlaylistModalOpen(true);
-                      }
-                    }}
-                  />
+                    <IconButton icon={addedToPlaylist ? (<Check style={{color: 'white'}} />) : (<Plus />)}
+                      circle
+                      title="Adicionar à playlist"
+                      style={{ marginRight: 8, backgroundColor: addedToPlaylist ? '#e50914' : undefined}}
+                      onClick={() => {if (!addedToPlaylist) {setPlaylistModalOpen(true)}}}
+                    />
                 </div>
               </Col>
             </Row>

@@ -60,25 +60,6 @@
   font-size: 14px;
 }
 
-.playlist-table th {
-  color: #b3b3b3;
-  text-align: left;
-  border-bottom: 1px solid #282828;
-}
-
-.playlist-table td {
-  border-bottom: 1px solid #282828;
-  height: 72px;
-}
-
-.center {
-  text-align: center;
-}
-
-.right {
-  text-align: right;
-}
-
 .movie-title {
   display: flex;
   align-items: center;
@@ -95,6 +76,14 @@
 .remove-button {
   background: transparent;
   border: none;
-  cursor: pointer;
-  padding: 0;
+  cursor: pointer; 
+}
+
+.remove-button:hover {
+  background: transparent; 
+}
+
+.remove-button:focus {
+  outline: none;
+  background: transparent;
 }

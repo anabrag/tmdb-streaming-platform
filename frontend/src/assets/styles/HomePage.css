@@ -153,6 +153,11 @@
   color: #ddd;
 }
 
+.main-player-buttons {
+  display: flex;
+  gap: 10px;
+}
+
 .main-player-buttons-container {
   display: flex;
   justify-content: space-between;

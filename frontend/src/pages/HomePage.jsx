@@ -19,7 +19,6 @@ const HomePage = () => {
   const [selectedPlaylistId, setSelectedPlaylistId] = useState(null);
   const [latestMovie, setLatestMovie] = useState(null);
   const [isMuted, setIsMuted] = useState(true);
-  const playerRef = useRef(null);
 
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
   const [selectedMovieId, setSelectedMovieId] = useState(null);
@@ -248,7 +247,7 @@ const HomePage = () => {
                       <h2 className="main-player-title">{latestMovie?.title ?? 'Título indisponível'}</h2>
                       <div className="main-player-buttons-container">
                         <div className="main-player-buttons">
-                          <a target='_blanck' href={`/player/${latestMovie?._id}`}>
+                          <a target='_blank' rel="noopener noreferrer" href={`/player/${latestMovie?._id}`}>
                             <Button appearance="primary" size="lg">
                               <FaPlay /> Assistir
                             </Button>
@@ -257,14 +256,6 @@ const HomePage = () => {
                             <FaInfoCircle /> Mais informações
                           </Button>
                         </div>
-                        <Button
-                          size="lg"
-                          appearance="default"
-                          className="volume-button"
-                          onClick={handleToggleMute}
-                        >
-                          {isMuted ? <FaVolumeMute /> : <FaVolumeUp />}
-                        </Button>
                       </div>
                     </div>
                   </div>
