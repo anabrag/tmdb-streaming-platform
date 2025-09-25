@@ -59,24 +59,11 @@
 }
 
 .details-modal .rs-btn-primary {
-  background-color: #e50914 !important;
-  border-color: #e50914 !important;
   color: white !important;
   font-weight: bold;
   padding: 10px 20px;
   border-radius: 6px;
   transition: background-color 0.3s ease;
-}
-
-.details-modal .rs-btn-primary:hover {
-  background-color: #b8070f !important;
-  border-color: #b8070f !important;
-}
-
-.details-modal .rs-btn-primary:focus {
-  background-color: #e50914 !important;
-  border-color: #e50914 !important;
-  box-shadow: 0 0 0 2px rgba(229, 9, 20, 0.3);
 }
 
 .details-modal .rs-ripple-pond,
@@ -172,8 +159,22 @@
 .modal-content-center {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  text-align: center;
-  height: 100%;
 }
+
+.modal-content-center img {
+  margin-top: 50px;
+}
+
+.modal-content-center h2 {
+  text-align: center;
+}
+
+.details-modal .rs-modal-header-close {
+  background: transparent !important;
+}
+
+.details-modal .rs-modal-header-close:hover svg {
+  fill: red !important;
+}
+
