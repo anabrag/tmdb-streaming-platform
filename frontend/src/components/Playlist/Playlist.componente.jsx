@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Header, Content, FlexboxGrid, Panel } from 'rsuite';
+import { Container, Header, Content, FlexboxGrid, Panel, Col } from 'rsuite';
 import { getPlaylistById, removeMovieFromPlaylist } from '../../services/playlist.service';
 import { FiTrash2 } from 'react-icons/fi';
 import './playlist.css';
@@ -72,43 +72,37 @@ const MoviePlaylist = ({ playlistId }) => {
 
       <Content className="playlist-table-container">
         <table className="playlist-table">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Título</th>
-              <th>Adicionado em</th>
-              <th>Lançamento</th>
-              <th>Nota</th>
-              <th>Remover</th>
+          <Col md={1}>#</Col>
+          <Col md={6}>Título</Col>
+          <Col md={4}>Adicionado em</Col>
+          <Col md={4}>Lançamento</Col>
+          <Col md={4}>Nota</Col>
+          <Col md={4}>Remover</Col>
+          {movies.map((movie, index) => (
+            <tr key={movie?._id || index}>
+              <Col md={1}>{index + 1}</Col>
+              <Col md={6} className="movie-title">
+                <img
+                  src={movie?.poster ? `https://image.tmdb.org/t/p/w200${movie.poster}` : 'https://via.placeholder.com/50x50'}
+                  alt={movie?.title || 'Sem título'}
+                  className="movie-poster"
+                />
+                <div>{movie?.title || 'Sem título'}</div>
+              </Col>
+              <Col md={4}>{formatDate(movie?.createdAt)}</Col>
+              <Col md={4}>{movie?.releaseDate || 'N/A'}</Col>
+              <Col md={4}>{movie?.voteAverage?.toFixed(1) || '-'}</Col>
+              <Col md={4}>
+                <button
+                  className="remove-button"
+                  onClick={() => handleRemoveMovie(movie?._id)}
+                  title="Remover filme"
+                >
+                  <FiTrash2 size={20} color="#ff4d4f" />
+                </button>
+              </Col>
             </tr>
-          </thead>
-          <tbody>
-            {movies.map((movie, index) => (
-              <tr key={movie?._id || index}>
-                <td className="center">{index + 1}</td>
-                <td className="movie-title">
-                  <img
-                    src={movie?.poster ? `https://image.tmdb.org/t/p/w200${movie.poster}` : 'https://via.placeholder.com/50x50'}
-                    alt={movie?.title || 'Sem título'}
-                    className="movie-poster"
-                  />
-                  <div>{movie?.title || 'Sem título'}</div>
-                </td>
-                <td>{formatDate(movie?.createdAt)}</td>
-                <td>{movie?.releaseDate || 'N/A'}</td>
-                <td className="right">{movie?.voteAverage?.toFixed(1) || '-'}</td>
-                <td className="center">
-                  <button
-                    className="remove-button"
-                    onClick={() => handleRemoveMovie(movie?._id)}
-                    title="Remover filme"
-                  >
-                    <FiTrash2 size={20} color="#ff4d4f" />
-                  </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
+          ))}
         </table>
       </Content>
     </Container>
