@@ -1,0 +1,26 @@
+name: Test
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: ["20"]
+    name: Frontend deploy
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          ref: main
+          path: main
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v2
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Test Frontend
+        run: cd ${{ github.workspace }}/main/frontend && npm install && npm run test
+      - name: Test Backend
+        run: cd ${{ github.workspace }}/main/backend && npm install && npm run test

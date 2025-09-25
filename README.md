@@ -1,4 +1,5 @@
-# Desafio NTT Data: Video playlist
+[![Test](https://github.com/anabrag/desafio-ntt-data/actions/workflows/ci.yaml/badge.svg)](https://github.com/anabrag/desafio-ntt-data/actions/workflows/ci.yaml)
+# Desafio: Video playlist
 
 ![Screenshot do sistema](./imgs/screenshot.png "Screenshot")
 
@@ -40,6 +41,10 @@ flowchart TD
 ```
 
 # Como rodar o projeto
+## Primeiro faça o setup do projeto
+```bash
+make setup
+```
 
 ## NodeJS Local + Docker para Database
 
