@@ -19,7 +19,6 @@ const HomePage = () => {
   const [selectedPlaylistId, setSelectedPlaylistId] = useState(null);
   const [latestMovie, setLatestMovie] = useState(null);
   const [isMuted, setIsMuted] = useState(true);
-  const playerRef = useRef(null);
 
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
   const [selectedMovieId, setSelectedMovieId] = useState(null);
@@ -257,14 +256,6 @@ const HomePage = () => {
                             <FaInfoCircle /> Mais informações
                           </Button>
                         </div>
-                        <Button
-                          size="lg"
-                          appearance="default"
-                          className="volume-button"
-                          onClick={handleToggleMute}
-                        >
-                          {isMuted ? <FaVolumeMute /> : <FaVolumeUp />}
-                        </Button>
                       </div>
                     </div>
                   </div>

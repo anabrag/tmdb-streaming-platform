@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import ReactPlayer from 'react-player';
 import { Button, Loader, Slider } from 'rsuite';
-import { FaTimes, FaVolumeUp, FaVolumeMute, FaPause, FaPlay, FaForward, FaBackward } from 'react-icons/fa';
+import { FaVolumeUp, FaVolumeMute, FaPause, FaPlay, FaForward, FaBackward } from 'react-icons/fa';
 
 import { getMovieById } from '../services/movie.service';
 
@@ -166,10 +166,6 @@ const FullscreenPlayer = () => {
 
               <Button appearance="primary" circle onClick={handleToggleMute} title={isMuted ? 'Desmutar' : 'Mutar'}>
                 {isMuted ? <FaVolumeMute /> : <FaVolumeUp />}
-              </Button>
-
-              <Button appearance="primary" circle onClick={handleClose} title="Fechar player">
-                <FaTimes />
               </Button>
             </div>
           </div>
