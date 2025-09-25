@@ -248,7 +248,7 @@ const HomePage = () => {
                       <h2 className="main-player-title">{latestMovie?.title ?? 'Título indisponível'}</h2>
                       <div className="main-player-buttons-container">
                         <div className="main-player-buttons">
-                          <a href={`/player/${latestMovie?._id}`}>
+                          <a target='_blanck' href={`/player/${latestMovie?._id}`}>
                             <Button appearance="primary" size="lg">
                               <FaPlay /> Assistir
                             </Button>
